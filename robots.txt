@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://bankruptcymeanstest.org/sitemap.xml
+
+Sitemap: https://bankruptcymeanstest.org/sitemapindex.xml

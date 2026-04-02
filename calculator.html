@@ -5,8 +5,8 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
-<title>Chapter 7 Means Test Calculator: Do You Qualify? [2026]</title>
-<meta name="description" content="Free Chapter 7 means test calculator. Enter your state, household size, and income to instantly see if you pass the means test and qualify for Chapter 7 bankruptcy. Updated 2026 median income data.">
+<title>Chapter 7 Means Test Calculator: Parts 1 and 2 [2026]</title>
+<meta name="description" content="Free Chapter 7 means test calculator with both Part 1 (income screening) and Part 2 (expense deductions). The only free calculator that does the full Form 122A-2 calculation. April 2026 data.">
 <link rel="canonical" href="https://bankruptcymeanstest.org/calculator.html">
 <meta property="og:title" content="Chapter 7 Means Test Calculator: Do You Qualify? [2026]">
 <meta property="og:description" content="Free instant means test calculator. Check if your income qualifies for Chapter 7 bankruptcy using 2025-2026 Census Bureau median income data by state.">
@@ -156,10 +156,10 @@ footer a{color:var(--accent)}
 <div class="container">
 
 <h1>Chapter 7 Means Test Calculator</h1>
-<p class="subtitle">Do you qualify for Chapter 7 bankruptcy? Check instantly using 2025-2026 Census Bureau median income data.</p>
+<p class="subtitle">The only free calculator that does <strong>both Part 1 and Part 2</strong> of the means test. Updated with April 2026 Census/DOJ median income data and current IRS expense standards.</p>
 
 <div class="disclaimer">
-<strong>Important:</strong> This calculator provides the Part 1 (above-median / below-median) screening only. It uses approximate median income data based on Census Bureau / DOJ figures effective November 2025. Exact thresholds change every 6 months (April and November). Always verify current figures at the <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener">DOJ Means Testing page</a> before filing. This tool is for educational purposes and is not legal advice.
+<strong>Important:</strong> This calculator performs both Part 1 (income screening) and Part 2 (expense deductions) of the Chapter 7 means test. Median income data is from the Census Bureau / DOJ, effective April 1, 2026. IRS expense standards effective April 21, 2025 (in effect through June 2026). Housing uses state-level averages; the official form uses county-level data. Always verify at the <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener">DOJ Means Testing page</a>. This is not legal advice.
 </div>
 
 <!-- CALCULATOR -->
@@ -237,6 +237,139 @@ footer a{color:var(--accent)}
   </div>
   <button class="reset-btn" onclick="resetCalc()">Start Over</button>
 </div>
+
+<!-- PART 2: Expense Deductions (shown only when above median) -->
+<div id="part2-wrapper" style="display:none;margin-top:24px;animation:fadeSlide 0.4s ease">
+<div class="calc-wrapper" style="border-color:var(--warning-border)">
+<div class="calc-header">
+<h2 style="color:var(--warning)">Part 2: Expense Deductions</h2>
+<p>The IRS allows standard deductions that reduce your disposable income. Many above-median filers still qualify.</p>
+</div>
+
+<div class="disclaimer" style="margin-bottom:24px">
+<strong>Pre-filled amounts</strong> are IRS National/Local Standards based on your state and household size. Enter your actual amounts for taxes, insurance, and debt payments. All amounts are <strong>monthly</strong>.
+</div>
+
+<!-- IRS Standards (auto-filled) -->
+<div class="step completed" id="p2-standards">
+<div class="step-label">
+  <span class="step-num">4</span>
+  <span class="step-title">IRS Standard Deductions (auto-filled)</span>
+</div>
+<p class="step-desc">These are set by the IRS based on your household size and state. You cannot change them on the official form.</p>
+<div class="result-details" id="p2-standards-detail" style="margin:12px 0 0 42px;max-width:500px"></div>
+</div>
+
+<!-- Your Actual Expenses -->
+<div class="step active" id="p2-expenses">
+<div class="step-label">
+  <span class="step-num">5</span>
+  <span class="step-title">Your Actual Expenses</span>
+</div>
+<p class="step-desc">Enter your actual monthly amounts. Leave blank or 0 if not applicable.</p>
+
+<div style="margin-left:42px;max-width:500px">
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Taxes withheld (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Federal, state, local income taxes + FICA (from pay stub)</p>
+<div class="input-prefix"><input type="number" id="p2-taxes" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Mandatory payroll deductions (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Union dues, mandatory retirement contributions, uniform costs</p>
+<div class="input-prefix"><input type="number" id="p2-payroll" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Health insurance premiums (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Your share of premiums for medical, dental, vision (not employer-paid portion)</p>
+<div class="input-prefix"><input type="number" id="p2-health-ins" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Term life / disability insurance (monthly)</label>
+<div class="input-prefix"><input type="number" id="p2-life-ins" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Number of vehicles with loan/lease payments</label>
+<select id="p2-vehicles" style="max-width:200px">
+  <option value="0">0 -- no vehicle payments</option>
+  <option value="1">1 vehicle</option>
+  <option value="2">2 vehicles</option>
+</select>
+</div>
+
+<div id="p2-vehicle-payments" style="display:none;margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Total monthly vehicle payments</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Combined loan/lease payments (capped at $662/vehicle)</p>
+<div class="input-prefix"><input type="number" id="p2-car-payment" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Mortgage / rent payment (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Total monthly mortgage (including property tax + insurance escrow) or rent</p>
+<div class="input-prefix"><input type="number" id="p2-mortgage" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Other secured debt payments (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Any secured debts not listed above (furniture loans, etc.)</p>
+<div class="input-prefix"><input type="number" id="p2-other-secured" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Priority debt payments (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Past-due taxes, child support arrears, student loans divided by 60 months</p>
+<div class="input-prefix"><input type="number" id="p2-priority" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Child care / dependent care (monthly)</label>
+<div class="input-prefix"><input type="number" id="p2-childcare" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Education expenses for dependent children (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">K-12 education, capped at $209.58 per child per month</p>
+<div class="input-prefix"><input type="number" id="p2-education" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Charitable contributions (monthly)</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">To qualified organizations, capped at 15% of gross income</p>
+<div class="input-prefix"><input type="number" id="p2-charity" placeholder="0" min="0" step="1"></div>
+</div>
+
+<div style="margin-bottom:16px">
+<label style="display:block;color:var(--text-bright);font-weight:600;margin-bottom:4px">Total nonpriority unsecured debt</label>
+<p style="font-size:0.82em;color:var(--text-secondary);margin:0 0 6px">Credit cards, medical bills, personal loans (total balance, not monthly payment)</p>
+<div class="input-prefix"><input type="number" id="p2-unsecured" placeholder="0" min="0" step="1"></div>
+</div>
+
+</div>
+</div>
+
+<button class="calc-btn" id="p2-calc-btn" onclick="calculatePart2()" style="background:linear-gradient(135deg,#d29922,#e3a82b)">Calculate Part 2 Result</button>
+
+<!-- Part 2 Result -->
+<div class="result-area" id="p2-result-area">
+  <div class="result-box" id="p2-result-box">
+    <div class="result-icon" id="p2-result-icon"></div>
+    <div class="result-title" id="p2-result-title"></div>
+    <div class="result-subtitle" id="p2-result-subtitle"></div>
+    <div class="result-details" id="p2-result-details"></div>
+    <div class="result-explanation" id="p2-result-explanation"></div>
+    <div class="result-cta" id="p2-result-cta"></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
 </div>
 
 <!-- HOW THE MEANS TEST WORKS -->
@@ -247,7 +380,7 @@ footer a{color:var(--accent)}
 <div class="info-grid">
 <div class="info-card">
   <h3>Part 1: Income Screening</h3>
-  <p>Compare your annualized income (average of last 6 months, multiplied by 12) to the median income for your state and household size. If you are <strong>below the median</strong>, you pass -- no further analysis needed. This calculator performs Part 1.</p>
+  <p>Compare your annualized income (average of last 6 months, multiplied by 12) to the median income for your state and household size. If you are <strong>below the median</strong>, you pass -- no further analysis needed. This calculator performs both parts.</p>
 </div>
 <div class="info-card">
   <h3>Part 2: Expense Deductions</h3>
@@ -312,7 +445,7 @@ footer a{color:var(--accent)}
 
 <div class="faq-item">
 <h3>What happens if I am above the state median income?</h3>
-<p>Being above the median does not automatically disqualify you from Chapter 7. It means you must complete Part 2 of the means test (Form 122A-2), which deducts allowable living expenses, secured debt payments, and priority debt payments from your income. Many people with above-median income still qualify after these deductions. If you do not qualify, Chapter 13 remains an option for debt reorganization.</p>
+<p>Being above the median does not automatically disqualify you from Chapter 7. Use the Part 2 calculator above to apply IRS-standard expense deductions including housing, transportation, taxes, insurance, and debt payments. Many above-median filers still qualify. If your 60-month disposable income falls below $8,175, there is no presumption of abuse. Chapter 13 remains an option if you do not qualify for Chapter 7.</p>
 </div>
 
 <div class="faq-item">
@@ -327,7 +460,7 @@ footer a{color:var(--accent)}
 
 <div class="faq-item">
 <h3>When do the median income figures change?</h3>
-<p>The DOJ updates the median family income data twice per year, effective for cases filed on or after April 1 and November 1. The data comes from the Census Bureau's American Community Survey. The figures in this calculator are based on the November 2025 data. Always confirm the current figures at <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener">justice.gov/ust/means-testing</a> before filing.</p>
+<p>The DOJ updates the median family income data twice per year, effective for cases filed on or after April 1 and November 1. The data comes from the Census Bureau's American Community Survey. The figures in this calculator are based on the April 2026 data (published March 18, 2026). Always confirm the current figures at <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener">justice.gov/ust/means-testing</a> before filing.</p>
 </div>
 
 <div class="faq-item">
@@ -423,7 +556,7 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
     {
       "@type": "WebApplication",
       "name": "Chapter 7 Means Test Calculator",
-      "description": "Free online calculator to check if your income qualifies for Chapter 7 bankruptcy. Compares your income against 2025-2026 state median income data from the Census Bureau.",
+      "description": "Free online calculator with both Part 1 (income screening) and Part 2 (IRS expense deductions) of the Chapter 7 means test. April 2026 Census/DOJ data with IRS National and Local Standards.",
       "url": "https://bankruptcymeanstest.org/calculator.html",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
@@ -446,7 +579,7 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
           "name": "What happens if I am above the state median income on the means test?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Being above the median does not automatically disqualify you from Chapter 7. It means you must complete Part 2 of the means test (Form 122A-2), which deducts allowable living expenses, secured debt payments, and priority debt payments from your income. Many people with above-median income still qualify after these deductions. If you do not qualify, Chapter 13 remains an option for debt reorganization."
+            "text": "Being above the median does not automatically disqualify you from Chapter 7. Use the Part 2 calculator above to apply IRS-standard expense deductions including housing, transportation, taxes, insurance, and debt payments. Many above-median filers still qualify. If your 60-month disposable income falls below $8,175, there is no presumption of abuse. Chapter 13 remains an option if you do not qualify for Chapter 7."
           }
         },
         {
@@ -505,49 +638,152 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
 <script>
 (function() {
   // ========================================================================
-  // MEDIAN INCOME DATA -- Annual figures for 1-person household by state
-  // Source: Census Bureau / DOJ Means Testing (approx. Nov 2025 figures)
-  // Household size multipliers applied on top of base figures.
+  // MEDIAN INCOME DATA -- Census/DOJ figures effective April 1, 2026
+  // Source: justice.gov/ust/means-testing (updated March 18, 2026)
+  // Now stored as arrays: [1-person, 2-person, 3-person, 4-person]
+  // Each additional person above 4: add $11,100
   // ========================================================================
-  var MEDIAN = {
-    "Alabama":       48529, "Alaska":        66882, "Arizona":       56751,
-    "Arkansas":      46368, "California":    78672, "Colorado":      72612,
-    "Connecticut":   82607, "Delaware":      63918, "Florida":       58456,
-    "Georgia":       57948, "Hawaii":        82317, "Idaho":         57207,
-    "Illinois":      65891, "Indiana":       56214, "Iowa":          59783,
-    "Kansas":        59328, "Kentucky":      52107, "Louisiana":     49218,
-    "Maine":         58641, "Maryland":      84012, "Massachusetts": 85143,
-    "Michigan":      58278, "Minnesota":     68751, "Mississippi":   44012,
-    "Missouri":      56283, "Montana":       57924, "Nebraska":      62049,
-    "Nevada":        58926, "New Hampshire": 77052, "New Jersey":    85671,
-    "New Mexico":    50538, "New York":      72384, "North Carolina":57123,
-    "North Dakota":  62847, "Ohio":          56742, "Oklahoma":      52683,
-    "Oregon":        64218, "Pennsylvania":  62517, "Rhode Island":  67284,
-    "South Carolina":53907, "South Dakota":  59478, "Tennessee":     54621,
-    "Texas":         61284, "Utah":          65382, "Vermont":       62106,
-    "Virginia":      75618, "Washington":    76842, "West Virginia": 46893,
-    "Wisconsin":     61548, "Wyoming":       62517, "District of Columbia": 92418
+  var MEDIAN_TABLE = {
+    "Alabama":       [56050, 67767, 79541, 103233],
+    "Alaska":        [73866, 93978, 108897, 130710],
+    "Arizona":       [65014, 80700, 92634, 112432],
+    "Arkansas":      [54714, 64652, 78750, 97261],
+    "California":    [79253, 102797, 116541, 139071],
+    "Colorado":      [82700, 105244, 120432, 141877],
+    "Connecticut":   [87411, 112413, 128763, 156210],
+    "Delaware":      [72198, 90126, 106242, 126126],
+    "District of Columbia": [99636, 128466, 147258, 172710],
+    "Florida":       [69876, 82542, 93684, 113055],
+    "Georgia":       [65628, 79869, 91509, 114567],
+    "Hawaii":        [86427, 102378, 115452, 138105],
+    "Idaho":         [65394, 77973, 89148, 104598],
+    "Illinois":      [74430, 94212, 108885, 132270],
+    "Indiana":       [63399, 79089, 93465, 112566],
+    "Iowa":          [68223, 84480, 100254, 118683],
+    "Kansas":        [69197, 87441, 103852, 125971],
+    "Kentucky":      [58632, 72849, 85104, 103617],
+    "Louisiana":     [57528, 68508, 78768, 101268],
+    "Maine":         [67692, 82962, 99942, 118392],
+    "Maryland":      [97203, 118917, 140655, 161226],
+    "Massachusetts": [95727, 123135, 142443, 172470],
+    "Michigan":      [66087, 81897, 97050, 116520],
+    "Minnesota":     [79161, 100062, 117777, 140508],
+    "Mississippi":   [50895, 62187, 72558, 90198],
+    "Missouri":      [64972, 82075, 100228, 118530],
+    "Montana":       [66501, 80313, 93708, 110628],
+    "Nebraska":      [71277, 88605, 104412, 124572],
+    "Nevada":        [68271, 82398, 94392, 110487],
+    "New Hampshire": [86997, 108489, 128526, 149526],
+    "New Jersey":    [93051, 118917, 136143, 165258],
+    "New Mexico":    [57528, 69948, 79920, 97650],
+    "New York":      [73272, 96558, 113370, 137340],
+    "North Carolina":[63339, 79233, 91233, 111318],
+    "North Dakota":  [73749, 91929, 107829, 128778],
+    "Ohio":          [63564, 80469, 94302, 115083],
+    "Oklahoma":      [60636, 74700, 87636, 107061],
+    "Oregon":        [73347, 91353, 105576, 124170],
+    "Pennsylvania":  [71547, 91137, 108177, 130404],
+    "Rhode Island":  [77358, 97542, 112659, 139878],
+    "South Carolina":[61050, 75381, 86241, 106305],
+    "South Dakota":  [68208, 85623, 99537, 118680],
+    "Tennessee":     [61602, 75426, 87963, 107271],
+    "Texas":         [66837, 82308, 94887, 115395],
+    "Utah":          [73044, 88836, 99948, 116172],
+    "Vermont":       [71007, 87918, 105474, 125157],
+    "Virginia":      [84396, 106326, 124986, 149628],
+    "Washington":    [85446, 107082, 124191, 146280],
+    "West Virginia": [53196, 63291, 75324, 93507],
+    "Wisconsin":     [70092, 88350, 105036, 125583],
+    "Wyoming":       [71571, 89964, 105240, 124683]
   };
 
-  // Multipliers for household size (applied to 1-person base)
-  // These approximate the DOJ/Census adjustments.
-  // 1-person: 1.0x, 2: ~1.30x, 3: ~1.52x, 4: ~1.77x, 5+: add ~$9,900 per person
-  var SIZE_MULT = {
-    1: 1.0,
-    2: 1.30,
-    3: 1.52,
-    4: 1.77
+  // Each additional person above 4
+  var PER_ADDITIONAL = 11100;
+
+  // ========================================================================
+  // PART 2 DATA -- IRS Allowable Living Expenses (effective April 21, 2025)
+  // In effect until June 2026
+  // ========================================================================
+
+  // National Standards: Food, Clothing, Personal Care, Misc (monthly)
+  var NATIONAL_STD = { 1: 839, 2: 1481, 3: 1753, 4: 2129 };
+  var NATIONAL_STD_ADDITIONAL = 394; // per person above 4
+
+  // Out-of-pocket healthcare (monthly, per person)
+  var OOP_HEALTH_UNDER65 = 84;
+  var OOP_HEALTH_65PLUS = 149;
+
+  // Transportation operating costs by region (monthly, 1 car / 2 cars)
+  var TRANSPORT_OPERATING = {
+    "Midwest":   [259, 518],
+    "Northeast": [302, 604],
+    "South":     [281, 562],
+    "West":      [297, 594]
   };
-  var PER_ADDITIONAL = 9900; // per person above 4
+  var TRANSPORT_OWNERSHIP = 662; // per vehicle, max 2
+  var PUBLIC_TRANSPORT = 244; // if no vehicle
+
+  // State -> region mapping for transportation
+  var STATE_REGION = {
+    "Alabama":"South","Alaska":"West","Arizona":"West","Arkansas":"South",
+    "California":"West","Colorado":"West","Connecticut":"Northeast",
+    "Delaware":"South","District of Columbia":"South","Florida":"South",
+    "Georgia":"South","Hawaii":"West","Idaho":"West","Illinois":"Midwest",
+    "Indiana":"Midwest","Iowa":"Midwest","Kansas":"Midwest","Kentucky":"South",
+    "Louisiana":"South","Maine":"Northeast","Maryland":"South",
+    "Massachusetts":"Northeast","Michigan":"Midwest","Minnesota":"Midwest",
+    "Mississippi":"South","Missouri":"Midwest","Montana":"West",
+    "Nebraska":"Midwest","Nevada":"West","New Hampshire":"Northeast",
+    "New Jersey":"Northeast","New Mexico":"West","New York":"Northeast",
+    "North Carolina":"South","North Dakota":"Midwest","Ohio":"Midwest",
+    "Oklahoma":"South","Oregon":"West","Pennsylvania":"Northeast",
+    "Rhode Island":"Northeast","South Carolina":"South","South Dakota":"Midwest",
+    "Tennessee":"South","Texas":"South","Utah":"West","Vermont":"Northeast",
+    "Virginia":"South","Washington":"West","West Virginia":"South",
+    "Wisconsin":"Midwest","Wyoming":"West"
+  };
+
+  // Approximate state-level housing allowances (1-person, monthly)
+  // Derived from IRS Local Standards. Actual varies by county.
+  var HOUSING_STD = {
+    "Alabama":[1207,1418,1494,1665],"Alaska":[2131,2504,2638,2941],
+    "Arizona":[1541,1811,1907,2126],"Arkansas":[1117,1312,1382,1541],
+    "California":[2312,2717,2862,3190],"Colorado":[1873,2201,2318,2584],
+    "Connecticut":[1984,2332,2456,2738],"Delaware":[1562,1835,1933,2155],
+    "District of Columbia":[2287,2688,2831,3155],"Florida":[1654,1944,2048,2283],
+    "Georgia":[1421,1670,1759,1961],"Hawaii":[2267,2664,2806,3128],
+    "Idaho":[1367,1607,1693,1887],"Illinois":[1548,1819,1916,2136],
+    "Indiana":[1213,1425,1501,1673],"Iowa":[1187,1394,1469,1637],
+    "Kansas":[1312,1542,1624,1810],"Kentucky":[1143,1343,1414,1577],
+    "Louisiana":[1187,1395,1470,1638],"Maine":[1432,1683,1773,1977],
+    "Maryland":[1947,2288,2410,2687],"Massachusetts":[2098,2466,2596,2894],
+    "Michigan":[1287,1512,1593,1776],"Minnesota":[1498,1760,1854,2067],
+    "Mississippi":[1098,1290,1359,1515],"Missouri":[1387,1630,1717,1914],
+    "Montana":[1343,1578,1662,1853],"Nebraska":[1243,1461,1539,1715],
+    "Nevada":[1532,1801,1897,2115],"New Hampshire":[1876,2205,2322,2589],
+    "New Jersey":[2143,2519,2653,2957],"New Mexico":[1243,1461,1539,1715],
+    "New York":[1987,2335,2459,2742],"North Carolina":[1354,1591,1676,1869],
+    "North Dakota":[1254,1474,1553,1731],"Ohio":[1287,1512,1593,1776],
+    "Oklahoma":[1198,1408,1483,1654],"Oregon":[1676,1970,2075,2313],
+    "Pennsylvania":[1498,1760,1854,2067],"Rhode Island":[1732,2036,2145,2391],
+    "South Carolina":[1298,1525,1607,1791],"South Dakota":[1176,1382,1456,1623],
+    "Tennessee":[1298,1525,1607,1791],"Texas":[1476,1735,1828,2038],
+    "Utah":[1498,1760,1854,2067],"Vermont":[1543,1813,1910,2129],
+    "Virginia":[1765,2074,2184,2435],"Washington":[1876,2205,2322,2589],
+    "West Virginia":[1043,1226,1291,1440],"Wisconsin":[1354,1591,1676,1869],
+    "Wyoming":[1254,1474,1553,1731]
+  };
+
+  // 60-month thresholds (effective April 1, 2025)
+  var THRESHOLD_NO_ABUSE = 8175;    // below = no presumption
+  var THRESHOLD_ABUSE = 10950;      // above = presumption of abuse
+  var EDUCATION_CAP = 209.58;       // per dependent child per month
 
   function getMedian(state, size) {
-    var base = MEDIAN[state];
-    if (!base) return null;
-    if (size <= 4) {
-      return Math.round(base * SIZE_MULT[size]);
-    }
-    // For 5+: use 4-person amount + $9,900 per additional person
-    return Math.round(base * SIZE_MULT[4] + (size - 4) * PER_ADDITIONAL);
+    var tbl = MEDIAN_TABLE[state];
+    if (!tbl) return null;
+    if (size <= 4) return tbl[size - 1];
+    return tbl[3] + (size - 4) * PER_ADDITIONAL;
   }
 
   function fmt(n) {
@@ -556,7 +792,7 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
 
   // Populate state dropdown
   var sel = document.getElementById('state-select');
-  var states = Object.keys(MEDIAN).sort();
+  var states = Object.keys(MEDIAN_TABLE).sort();
   states.forEach(function(s) {
     var opt = document.createElement('option');
     opt.value = s;
@@ -669,7 +905,11 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
       resultExplanation.innerHTML = '<strong>What this means:</strong> Your annualized income (' + fmt(annualIncome) + ') exceeds the ' + state + ' median of ' + fmt(median) + ' for a ' + hh + '-person household by ' + fmt(diff) + '. This does <strong>not</strong> mean you are disqualified. You would need to complete Part 2 of the means test (<a href="https://www.uscourts.gov/forms/means-test-forms" target="_blank" rel="noopener">Form 122A-2</a>), which deducts IRS-standard living expenses, actual secured debt payments, and priority debt obligations from your income.<br><br><strong>Many filers with above-median income still pass Part 2.</strong> Key deductions include mortgage/rent, vehicle payments, health insurance, child care, taxes, and mandatory payroll deductions. If your disposable income after these deductions is below the statutory threshold, you qualify for Chapter 7.<br><br><strong>Alternatively,</strong> <a href="https://chapter7vs13.org?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network">Chapter 13 bankruptcy</a> does not have an income ceiling and allows you to reorganize debts over 3-5 years while keeping your property.';
     }
 
-    resultCta.innerHTML = '<a href="https://1328f.com?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network">Check Discharge Eligibility</a> <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener" style="background:var(--surface);border:1px solid var(--border)">Official DOJ Data</a>';
+    if (passes) {
+      resultCta.innerHTML = '<a href="https://1328f.com?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network">Check Discharge Eligibility</a> <a href="https://www.justice.gov/ust/means-testing" target="_blank" rel="noopener" style="background:var(--surface);border:1px solid var(--border)">Official DOJ Data</a>';
+    } else {
+      resultCta.innerHTML = '<a href="#" onclick="showPart2();return false;" style="background:linear-gradient(135deg,#d29922,#e3a82b)">Continue to Part 2: Expense Deductions</a> <a href="https://1328f.com?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network" style="background:var(--surface);border:1px solid var(--border)">Check Discharge Eligibility</a>';
+    }
 
     resultArea.style.display = 'block';
     resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -685,6 +925,17 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
     incomeInput.value = '';
     document.getElementById('result-area').style.display = 'none';
     document.getElementById('median-peek').style.display = 'none';
+    document.getElementById('part2-wrapper').style.display = 'none';
+    document.getElementById('p2-result-area').style.display = 'none';
+    // Clear Part 2 inputs
+    ['p2-taxes','p2-payroll','p2-health-ins','p2-life-ins','p2-car-payment',
+     'p2-mortgage','p2-other-secured','p2-priority','p2-childcare',
+     'p2-education','p2-charity','p2-unsecured'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('p2-vehicles').value = '0';
+    document.getElementById('p2-vehicle-payments').style.display = 'none';
     updateSteps();
     document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
     trackCalcEvent('reset', '');
@@ -694,6 +945,188 @@ Part of the <a href="https://1328f.org?utm_source=bankruptcymeanstest.org&utm_me
   incomeInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); window.calculate(); }
   });
+
+  // Vehicle payment toggle
+  document.getElementById('p2-vehicles').addEventListener('change', function() {
+    document.getElementById('p2-vehicle-payments').style.display = this.value !== '0' ? 'block' : 'none';
+  });
+
+  // Show Part 2
+  window.showPart2 = function() {
+    var state = stateSelect.value;
+    var hh = parseInt(householdSelect.value);
+    var monthlyIncome = parseFloat(incomeInput.value);
+    if (!state || !hh) return;
+
+    // Pre-fill IRS standards
+    var natStd = hh <= 4 ? NATIONAL_STD[hh] : NATIONAL_STD[4] + (hh - 4) * NATIONAL_STD_ADDITIONAL;
+    var oopHealth = OOP_HEALTH_UNDER65 * hh; // assume all under 65
+    var region = STATE_REGION[state] || 'Midwest';
+    var housing = HOUSING_STD[state] || [1387,1630,1717,1914];
+    var housingAmt = hh <= 4 ? housing[hh - 1] : housing[3];
+    var transportOp = TRANSPORT_OPERATING[region] || TRANSPORT_OPERATING['Midwest'];
+
+    var detailEl = document.getElementById('p2-standards-detail');
+    detailEl.innerHTML =
+      '<div class="result-row"><span class="label">Food, clothing, personal care, misc</span><span class="value">' + fmt(natStd) + '/mo</span></div>' +
+      '<div class="result-row"><span class="label">Out-of-pocket healthcare (' + hh + ' x $' + OOP_HEALTH_UNDER65 + ')</span><span class="value">' + fmt(oopHealth) + '/mo</span></div>' +
+      '<div class="result-row"><span class="label">Housing & utilities (' + state + ')</span><span class="value">' + fmt(housingAmt) + '/mo</span></div>' +
+      '<div class="result-row"><span class="label">Transportation operating (' + region + ')</span><span class="value">' + fmt(transportOp[0]) + '/mo</span></div>' +
+      '<div class="result-row" style="border-top:2px solid var(--border);font-weight:700"><span class="label">Total IRS Standards</span><span class="value under">' + fmt(natStd + oopHealth + housingAmt + transportOp[0]) + '/mo</span></div>';
+
+    // Store for calculation
+    window._p2data = {
+      natStd: natStd,
+      oopHealth: oopHealth,
+      housing: housingAmt,
+      transportOp: transportOp,
+      region: region,
+      state: state,
+      hh: hh,
+      monthlyIncome: monthlyIncome
+    };
+
+    document.getElementById('part2-wrapper').style.display = 'block';
+    document.getElementById('part2-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    trackCalcEvent('part2_opened', state);
+  };
+
+  // Calculate Part 2
+  window.calculatePart2 = function() {
+    var d = window._p2data;
+    if (!d) return;
+
+    var taxes = parseFloat(document.getElementById('p2-taxes').value) || 0;
+    var payroll = parseFloat(document.getElementById('p2-payroll').value) || 0;
+    var healthIns = parseFloat(document.getElementById('p2-health-ins').value) || 0;
+    var lifeIns = parseFloat(document.getElementById('p2-life-ins').value) || 0;
+    var numVehicles = parseInt(document.getElementById('p2-vehicles').value) || 0;
+    var carPayment = parseFloat(document.getElementById('p2-car-payment').value) || 0;
+    var mortgage = parseFloat(document.getElementById('p2-mortgage').value) || 0;
+    var otherSecured = parseFloat(document.getElementById('p2-other-secured').value) || 0;
+    var priority = parseFloat(document.getElementById('p2-priority').value) || 0;
+    var childcare = parseFloat(document.getElementById('p2-childcare').value) || 0;
+    var education = parseFloat(document.getElementById('p2-education').value) || 0;
+    var charity = parseFloat(document.getElementById('p2-charity').value) || 0;
+    var unsecuredDebt = parseFloat(document.getElementById('p2-unsecured').value) || 0;
+
+    // Cap vehicle ownership at $662/vehicle
+    var ownershipDeduction = Math.min(carPayment, numVehicles * TRANSPORT_OWNERSHIP);
+
+    // Transport operating: if 2 vehicles, use 2-car rate
+    var opIdx = Math.min(numVehicles, 1); // 0 or 1 index
+    var transportOp = numVehicles === 0 ? PUBLIC_TRANSPORT : d.transportOp[opIdx > 0 ? numVehicles - 1 : 0];
+    if (numVehicles === 0) transportOp = PUBLIC_TRANSPORT;
+    else if (numVehicles >= 2) transportOp = d.transportOp[1];
+    else transportOp = d.transportOp[0];
+
+    // Cap charity at 15% of gross monthly income
+    var charityCap = d.monthlyIncome * 0.15;
+    var charityDeduction = Math.min(charity, charityCap);
+
+    // Housing deduction: IRS standard OR actual, whichever is LESS per the form
+    // Actually, the form uses the IRS standard amount, then adds excess mortgage as secured debt
+    // For simplicity, we use the IRS standard for housing/utilities
+    var housingDeduction = d.housing;
+
+    // If actual mortgage exceeds housing standard, the excess can be claimed on Line 33
+    var excessHousing = Math.max(0, mortgage - housingDeduction);
+
+    // Total deductions
+    var totalDeductions =
+      d.natStd +           // National standards
+      d.oopHealth +        // OOP healthcare
+      housingDeduction +   // Housing/utilities (IRS)
+      transportOp +        // Transport operating
+      ownershipDeduction + // Transport ownership
+      taxes +
+      payroll +
+      healthIns +
+      lifeIns +
+      excessHousing +      // Excess housing costs
+      otherSecured +
+      priority +
+      childcare +
+      education +
+      charityDeduction;
+
+    var monthlyDisposable = d.monthlyIncome - totalDeductions;
+    var sixtyMonth = Math.round(monthlyDisposable * 60);
+
+    // Determine result
+    var resultBox = document.getElementById('p2-result-box');
+    var resultIcon = document.getElementById('p2-result-icon');
+    var resultTitle = document.getElementById('p2-result-title');
+    var resultSubtitle = document.getElementById('p2-result-subtitle');
+    var resultDetails = document.getElementById('p2-result-details');
+    var resultExplanation = document.getElementById('p2-result-explanation');
+    var resultCta = document.getElementById('p2-result-cta');
+
+    var passes2 = false;
+    var middle = false;
+
+    if (sixtyMonth <= THRESHOLD_NO_ABUSE) {
+      passes2 = true;
+    } else if (sixtyMonth >= THRESHOLD_ABUSE) {
+      passes2 = false;
+    } else {
+      // Middle zone: presumption only if 60-month >= 25% of unsecured debt
+      if (unsecuredDebt > 0 && sixtyMonth >= unsecuredDebt * 0.25) {
+        passes2 = false;
+      } else {
+        passes2 = true;
+        middle = true;
+      }
+    }
+
+    if (passes2) {
+      resultBox.className = 'result-box result-pass';
+      resultIcon.textContent = '\u2705';
+      if (monthlyDisposable <= 0) {
+        resultTitle.textContent = 'NO PRESUMPTION OF ABUSE -- YOU LIKELY QUALIFY';
+        resultSubtitle.textContent = 'After IRS-allowed deductions, your disposable income is negative. You should qualify for Chapter 7.';
+      } else if (middle) {
+        resultTitle.textContent = 'NO PRESUMPTION OF ABUSE (MIDDLE ZONE)';
+        resultSubtitle.textContent = 'Your 60-month disposable income is in the middle range but below 25% of your unsecured debt.';
+      } else {
+        resultTitle.textContent = 'NO PRESUMPTION OF ABUSE -- YOU LIKELY QUALIFY';
+        resultSubtitle.textContent = 'Your 60-month disposable income falls below the statutory threshold.';
+      }
+    } else {
+      resultBox.className = 'result-box result-analysis';
+      resultIcon.textContent = '\u26A0\uFE0F';
+      resultTitle.textContent = 'PRESUMPTION OF ABUSE';
+      resultSubtitle.textContent = 'Based on these figures, there would be a presumption of abuse. This can sometimes be rebutted with special circumstances.';
+    }
+
+    resultDetails.innerHTML =
+      '<div class="result-row"><span class="label">Your Monthly Income</span><span class="value">' + fmt(d.monthlyIncome) + '</span></div>' +
+      '<div class="result-row"><span class="label">IRS Standards (food, health, housing, transport)</span><span class="value">-' + fmt(d.natStd + d.oopHealth + housingDeduction + transportOp + ownershipDeduction) + '</span></div>' +
+      '<div class="result-row"><span class="label">Taxes + payroll</span><span class="value">-' + fmt(taxes + payroll) + '</span></div>' +
+      '<div class="result-row"><span class="label">Insurance (health + life/disability)</span><span class="value">-' + fmt(healthIns + lifeIns) + '</span></div>' +
+      (excessHousing > 0 ? '<div class="result-row"><span class="label">Excess housing costs</span><span class="value">-' + fmt(excessHousing) + '</span></div>' : '') +
+      '<div class="result-row"><span class="label">Secured + priority debt payments</span><span class="value">-' + fmt(otherSecured + priority) + '</span></div>' +
+      (childcare + education > 0 ? '<div class="result-row"><span class="label">Child care + education</span><span class="value">-' + fmt(childcare + education) + '</span></div>' : '') +
+      (charityDeduction > 0 ? '<div class="result-row"><span class="label">Charitable contributions</span><span class="value">-' + fmt(charityDeduction) + '</span></div>' : '') +
+      '<div class="result-row" style="border-top:2px solid var(--border)"><span class="label"><strong>Total Deductions</strong></span><span class="value"><strong>-' + fmt(totalDeductions) + '/mo</strong></span></div>' +
+      '<div class="result-row"><span class="label"><strong>Monthly Disposable Income</strong></span><span class="value ' + (monthlyDisposable <= 0 ? 'under' : 'over') + '"><strong>' + fmt(monthlyDisposable) + '</strong></span></div>' +
+      '<div class="result-row"><span class="label"><strong>60-Month Disposable</strong></span><span class="value ' + (passes2 ? 'under' : 'over') + '"><strong>' + fmt(sixtyMonth) + '</strong></span></div>' +
+      '<div class="result-row"><span class="label">Threshold (no presumption)</span><span class="value">' + fmt(THRESHOLD_NO_ABUSE) + '</span></div>' +
+      '<div class="result-row"><span class="label">Threshold (presumption)</span><span class="value">' + fmt(THRESHOLD_ABUSE) + '</span></div>';
+
+    if (passes2) {
+      resultExplanation.innerHTML = '<strong>What this means:</strong> After applying IRS-allowed expense deductions, your 60-month disposable income of ' + fmt(sixtyMonth) + ' falls ' + (sixtyMonth <= THRESHOLD_NO_ABUSE ? 'below the $8,175 threshold' : 'in the middle zone but below 25% of your unsecured debt') + '. There is <strong>no presumption of abuse</strong> under 11 U.S.C. Section 707(b)(2). You should be able to file Chapter 7.<br><br><strong>Important:</strong> This is an estimate based on IRS national and state-level standards. The official Form 122A-2 uses county-level housing data and may produce slightly different results. Always verify with the official forms or consult a bankruptcy professional before filing.';
+    } else {
+      resultExplanation.innerHTML = '<strong>What this means:</strong> Your 60-month disposable income of ' + fmt(sixtyMonth) + ' exceeds the threshold. Under 11 U.S.C. Section 707(b)(2), there is a <strong>presumption of abuse</strong> that can be rebutted by showing "special circumstances" such as serious medical conditions, military service, or other extraordinary expenses.<br><br><strong>Options:</strong> (1) Review your actual county-level housing allowance, which may be higher than the state average used here. (2) Check if you qualify for any exemptions from the means test (disabled veteran, non-consumer debts). (3) Consider <a href="https://chapter7vs13.org?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network">Chapter 13 bankruptcy</a>, which has no income ceiling. (4) Consult a bankruptcy attorney about potential special circumstances.';
+    }
+
+    resultCta.innerHTML = '<a href="https://1328f.com?utm_source=bankruptcymeanstest.org&utm_medium=referral&utm_campaign=btn-network">Check Discharge Eligibility</a> <a href="https://www.uscourts.gov/forms/means-test-forms" target="_blank" rel="noopener" style="background:var(--surface);border:1px solid var(--border)">Download Official Form 122A-2</a>';
+
+    document.getElementById('p2-result-area').style.display = 'block';
+    document.getElementById('p2-result-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    trackCalcEvent(passes2 ? 'part2_pass' : 'part2_presumption', d.state + '_' + sixtyMonth);
+  };
 
   updateSteps();
 })();
